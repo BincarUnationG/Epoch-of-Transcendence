@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "epoch_of_transcendence:mana_ore",
+    "epoch_of_transcendence:deepslate_mana_ore",
+    "epoch_of_transcendence:mana_block"
+  ]
+}

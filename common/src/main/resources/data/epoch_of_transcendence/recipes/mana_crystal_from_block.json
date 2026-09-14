@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "epoch_of_transcendence:mana_block"
+    }
+  ],
+  "result": {
+    "item": "epoch_of_transcendence:mana_crystal",
+    "count": 9
+  }
+}

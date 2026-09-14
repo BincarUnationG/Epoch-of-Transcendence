@@ -1,0 +1,13 @@
+{
+  "block.epoch_of_transcendence.mana_ore": "魔力矿石",
+  "item.epoch_of_transcendence.mana_crystal": "魔力结晶",
+  "item.epoch_of_transcendence.mana_dust": "魔力粉尘",
+  "block.epoch_of_transcendence.deepslate_mana_ore": "深层魔力矿石",
+  "itemGroup.epoch_of_transcendence.epoch_tab": "超凡纪元",
+  "block.epoch_of_transcendence.mana_block": "魔力块",
+  "effect.epoch_of_transcendence.mana_surge": "魔力涌动",
+  "item.minecraft.potion.effect.mana_surge": "魔力涌动药水",
+  "item.minecraft.potion.effect.long_mana_surge": "延时魔力涌动药水",
+  "item.minecraft.splash_potion.effect.mana_surge": "喷溅型魔力涌动药水",
+  "item.minecraft.lingering_potion.effect.mana_surge": "滞留型魔力涌动药水"
+}

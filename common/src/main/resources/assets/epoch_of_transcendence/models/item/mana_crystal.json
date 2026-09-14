@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "epoch_of_transcendence:item/mana_crystal"
+  }
+}

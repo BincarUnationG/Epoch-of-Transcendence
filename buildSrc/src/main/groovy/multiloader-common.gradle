@@ -13,6 +13,12 @@ java {
     withJavadocJar()
 }
 
+// Source files are UTF-8; without this javac falls back to the platform
+// default encoding (GBK on zh-CN Windows) and fails on non-ASCII comments.
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
 repositories {
     mavenCentral()
     // https://docs.gradle.org/current/userguide/declaring_repositories.html#declaring_content_exclusively_found_in_one_repository

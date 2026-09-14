@@ -1,6 +1,6 @@
 {
     "schemaVersion": 1,
-    "id": "mod_id",
+    "id": "epoch_of_transcendence",
     "version": "${version}",
     "name": "${mod_name}",
     "description": "${description}",
@@ -12,11 +12,17 @@
         "sources": "https://github.com/FabricMC/fabric-example-mod"
     },
     "license": "${license}",
-    "icon": "assets/modid/${mod_id}.png",
+    "icon": "assets/${mod_id}/${mod_id}.png",
     "environment": "*",
     "entrypoints": {
         "main": [
-            "com.example.examplemod.ExampleMod"
+            "epoch.transcendence.EpochFabricMod"
+        ],
+        "fabirc-datagen": [
+            "epoch.transcendence.EpochFabricModDataGenerator"
+        ],
+        "client": [
+            "epoch.transcendence.client.EpochFabricClientMod"
         ]
     },
     "mixins": [

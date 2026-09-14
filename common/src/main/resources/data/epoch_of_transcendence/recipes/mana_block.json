@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "epoch_of_transcendence:mana_crystal"
+    }
+  },
+  "result": {
+    "item": "epoch_of_transcendence:mana_block"
+  }
+}
