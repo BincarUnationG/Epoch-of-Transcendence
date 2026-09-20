@@ -1,0 +1,77 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "forge - Client",
+      "presentation": {
+        "group": "Mod Development - forge",
+        "order": 0
+      },
+      "projectName": "forge",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@D:\\C-code\\java\\Epoch of Transcendence\\forge\\build\\moddev\\clientRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@D:\\C-code\\java\\Epoch of Transcendence\\forge\\build\\moddev\\clientRunVmArgs.txt",
+        "-Dfml.modFolders\u003depoch_of_transcendence%%D:\\C-code\\java\\Epoch of Transcendence\\forge\\bin\\main"
+      ],
+      "cwd": "${workspaceFolder}\\forge\\run",
+      "env": {
+        "MOD_CLASSES": "epoch_of_transcendence%%D:\\C-code\\java\\Epoch of Transcendence\\forge\\bin\\main"
+      },
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    },
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "forge - Data",
+      "presentation": {
+        "group": "Mod Development - forge",
+        "order": 1
+      },
+      "projectName": "forge",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@D:\\C-code\\java\\Epoch of Transcendence\\forge\\build\\moddev\\dataRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@D:\\C-code\\java\\Epoch of Transcendence\\forge\\build\\moddev\\dataRunVmArgs.txt",
+        "-Dfml.modFolders\u003depoch_of_transcendence%%D:\\C-code\\java\\Epoch of Transcendence\\forge\\bin\\main"
+      ],
+      "cwd": "${workspaceFolder}\\forge\\run",
+      "env": {
+        "MOD_CLASSES": "epoch_of_transcendence%%D:\\C-code\\java\\Epoch of Transcendence\\forge\\bin\\main"
+      },
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    },
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "forge - Server",
+      "presentation": {
+        "group": "Mod Development - forge",
+        "order": 2
+      },
+      "projectName": "forge",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@D:\\C-code\\java\\Epoch of Transcendence\\forge\\build\\moddev\\serverRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@D:\\C-code\\java\\Epoch of Transcendence\\forge\\build\\moddev\\serverRunVmArgs.txt",
+        "-Dfml.modFolders\u003depoch_of_transcendence%%D:\\C-code\\java\\Epoch of Transcendence\\forge\\bin\\main"
+      ],
+      "cwd": "${workspaceFolder}\\forge\\run",
+      "env": {
+        "MOD_CLASSES": "epoch_of_transcendence%%D:\\C-code\\java\\Epoch of Transcendence\\forge\\bin\\main"
+      },
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    }
+  ]
+}

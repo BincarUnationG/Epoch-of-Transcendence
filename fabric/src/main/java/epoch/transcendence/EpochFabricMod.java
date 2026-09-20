@@ -1,7 +1,10 @@
 package epoch.transcendence;
 
+import epoch.transcendence.data.FabricRank;
+import epoch.transcendence.network.RankNetwork;
 import epoch.transcendence.registry.*;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.minecraft.core.Registry;
@@ -27,6 +30,14 @@ public class EpochFabricMod implements ModInitializer {
         particleRegister();
         fuelRegister();
 
+        FabricRank.RANK_ATTACHMENT.getClass();
+        ServerPlayConnectionEvents.JOIN.register(
+                (handler,
+                 sender,
+                 server) ->
+                RankNetwork.syncAllTo(handler.getPlayer()
+                )
+        );
 
         ModCreativeTab.register();
 

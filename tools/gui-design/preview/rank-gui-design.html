@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>位阶 GUI 设计稿 · Epoch of Transcendence</title>
+<style>
+:root{color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:#141118;color:#E8DCC8;font-family:'Microsoft YaHei','Noto Sans SC',system-ui,sans-serif;font-size:14px;line-height:1.75}
+.wrap{max-width:1200px;margin:0 auto;padding:30px 22px 70px}
+h1{font-size:22px;margin:0 0 4px;color:#E8B254;letter-spacing:1px}
+.sub{color:#9A8A72;font-size:13px;margin:0 0 28px}
+h2{font-size:15px;margin:36px 0 12px;color:#C49054;border-left:3px solid #5C4127;padding-left:10px;letter-spacing:.5px}
+p{margin:0 0 10px;color:#C9BCA6}
+.card{background:#1C140C;border:1px solid #3E2A18;border-radius:6px;padding:14px;margin-bottom:12px}
+.card.pad0{padding:8px;text-align:center;background:#0E0C12}
+img{max-width:100%;display:block;margin:0 auto;border-radius:4px;image-rendering:pixelated}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:14px}
+th{background:#241A10;color:#C49054;text-align:left;padding:7px 10px;border:1px solid #3E2A18;font-weight:600}
+td{padding:6px 10px;border:1px solid #2A1E14;color:#C9BCA6}
+code{font-family:Consolas,'Courier New',monospace;color:#D8B98A;background:#241A10;padding:1px 5px;border-radius:3px;font-size:12.5px}
+pre{background:#0B0806;border:1px solid #3E2A18;border-radius:6px;padding:14px 16px;overflow-x:auto;margin:0 0 14px}
+pre code{background:none;padding:0;color:#C9B896;font-size:12.5px;line-height:1.65}
+.warn{border-left:3px solid #B8860B;background:#241A10;padding:11px 14px;border-radius:0 5px 5px 0;color:#D8C9A8;font-size:13px;margin-bottom:16px}
+ul{padding-left:20px;color:#C9BCA6;margin:0}
+li{margin:4px 0}
+.cap{font-size:12px;color:#8A7A62;margin:8px 0 18px;text-align:center}
+.cm{color:#7A6A52}
+.kw{color:#B8860B}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>位阶 · 属性面板 — 设计稿</h1>
+<div class="sub">Epoch of Transcendence · 原版背包像素语言 · 嵌入被擦除的合成区（97 × 72）</div>
+
+<h2>一 · 镶嵌预览</h2>
+<div class="card pad0"><img src="data:image/png;base64,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" alt="镶嵌预览"></div>
+<div class="cap">左：擦除合成区后的背包　·　右：嵌入位阶属性面板后（3 倍放大，金色虚线为新面板范围）</div>
+
+<h2>二 · 可用区域实测</h2>
+<table>
+<tr><th>边界</th><th>位置</th><th>说明</th></tr>
+<tr><td>左</td><td>x = 76</td><td>x=75 是玩家预览区边框，不能再左</td></tr>
+<tr><td>右</td><td>x = 172</td><td>x=173..174 是面板阴影 <code>#555555</code>，不能再右</td></tr>
+<tr><td>上</td><td>y = 7</td><td>y=3..6 是面板 4px 内边距</td></tr>
+<tr><td>下</td><td>y = 78</td><td>y=79..82 是 4px 灰带，y=83 起是主背包</td></tr>
+<tr><td><strong>结论</strong></td><td colspan="2"><strong>97 × 72</strong> — 正好与原版合成区同尺寸</td></tr>
+</table>
+<div class="warn"><strong>擦除残留：</strong>逐像素扫描发现 y=17..78 之间散落着 <code>#C5C5C5</code>（比面板灰暗 1 阶）与单像素杂点，集中在 x = 82 / 90 / 93 / 125 / 144 / 153 / 170 一带，应是原合成格边框的抗锯齿痕迹。本面板为<strong>实心底</strong>，贴上去可将其一并覆盖。</div>
+
+<h2>三 · 面板内部设计稿（97 × 72）</h2>
+<div class="card pad0"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYQAAAEgCAYAAAC0MAQrAAAE4UlEQVR4nO3dMW7bZhiAYTnIIbJ3zRFyDA85QpYOBLx59swhS48Q6ByBqANkjefCl3CQt0MhpYhh8Rcs1M8zmZBFE4SkF59/iLza7XaPGwBevTev/gwAEEEAIIIAQN5uzuzrl7uD7Q8fb8/9JwE4gQkBgAgCABEEAM6zhnC8ZvDt+9+Hv2BNAeAimRAAiCAAEEEA4DxrCMdrBu//ePfbxz+MPgAATmJCACCCAEAEAYBcrb0fwl93fz5rzeCpxz/dfl5zOACcyIQAQAQBgAgCAGO+h/DcNYNf7odwdG0jAF6GCQGACAIAEQQAxqwhPHvN4Mjx4+7BDPAyTAgARBAAiCAAMOZaRgD8P5gQAIggABBBACCCAEAEAYAIAgARBAAiCABEEACIIAAQQQBgzP0QpmnavKR5ng+2HY/z4/Xj/eXz5zQmBAAiCABEEAAYs4Zw7Pr6enNONzc3B9vLsjge58frx/vL58/m6c/Dp5gQAIggABBBACCCAEAEAYAIAgARBAAiCABEEACIIAAQQQAgggBABAGACAIAEQQAIggARBAAiCAAEEEAIIIAQAQBgAgCABEEAPJ2s9J+v99cEsfj/Hj9eH/5/DmNCQGACAIAEQQAcrXb7R7/+RGA18yEAEAEAYAIAgBjvocwz/PaXQAwwDRNq55vQgAgggBABAGAMWsI2+127S4AGGBZllXPNyEAEEEAIIIAwJg1hLX/swLgMpgQAIggABBBAGDMGsLaa2cAMMbaa8uZEACIIAAQQQBgzBrCsYeHh9G7BOA/3N/fH2y7lhEAQ/iXEQARBAAiCABEEACIIAAQQQAgggBABAGACAIAEQQAIggARBAAiCAAEEEAIIIAQAQBgAgCABEEAMbcU3m/36/dBQAXwIQAQAQBgAgCAGPWEJZlWbsLAC6ACQGACAIAEQQAxqwhzPO8dhcADDBN06rnmxAAiCAAEEEAYMwawna7XbsLAAZY+70wEwIAEQQAIggAxLWMAIgJAYAIAgARBAAiCABEEACIIAAQQQAgggBABAGACAIAEQQAIggARBAAiCAAEEEAIIIAQAQBgAgCABEEACIIAEQQAIggABBBACCCAEAEAYAIAgARBAAiCABEEACIIAAQQQAgggBABAGACAIAEQQAIggARBAAiCAAEEEAIIIAQAQBgAgCABEEACIIAEQQAIggABBBACCCAEAEAYAIAgARBAAiCABEEACIIAAQQQAgggBABAGACAIAEQQAIggARBAAiCAAEEEAIIIAQAQBgAgCABEEACIIAEQQAIggABBBACCCAEAEAYAIAgARBAAiCABEEACIIAAQQQAgggBABAGACAIAEQQAIggARBAAiCAAEEEAIIIAQAQBgAgCABEEACIIAEQQAIggABBBACCCAEAEAYAIAgARBAAiCABEEACIIAAQQQBAEAD4lwkBgAgCABEEACIIAEQQAIggABBBACCCAEAEAYAIAgARBAAiCABEEACIIAAQQQAgggBABAGACAIAEQQAIggARBAAiCAAEEEAIIIAQAQBgAgCABEEACIIAEQQAIggABBBACCCAEAEAYAIAgARBAAiCABEEACIIAAQQQAgggBABAGACAIAEQQAIggARBAAiCAAEEEAIIIAQAQBgAgCABEEACIIAEQQAIggABBBAGDz0w93z7zdhBgyywAAAABJRU5ErkJggg==" alt="面板 4x 放大"></div>
+<div class="cap">rank_stats_mortal.png · 4 倍放大（最近邻）</div>
+<div class="card pad0">
+<svg width="462" height="296" viewBox="0 0 462 296" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+<defs><g id="c8b">
+<rect width="8" height="8" fill="#8B8B8B"/><rect width="8" height="1" fill="#373737"/><rect y="1" width="1" height="6" fill="#373737"/><rect y="7" width="8" height="1" fill="#FFFFFF"/><rect x="7" y="1" width="1" height="7" fill="#FFFFFF"/>
+</g></defs>
+<g transform="translate(14,26) scale(3)">
+<rect width="97" height="72" fill="#C6C6C6"/>
+<rect x="4" y="1" width="6" height="1" fill="#8A6E4B"/><rect x="5" y="2" width="4" height="1" fill="#8A6E4B"/><rect x="6" y="3" width="2" height="1" fill="#8A6E4B"/>
+<text x="12" y="7" font-size="6" fill="#212121" font-family="Consolas,monospace" font-weight="bold">位阶 · 传说</text>
+<text x="93" y="7" font-size="6" fill="#555555" font-family="Consolas,monospace" text-anchor="end">3 / 9</text>
+<use href="#c8b" x="4" y="10"/><use href="#c8b" x="13" y="10"/><use href="#c8b" x="22" y="10"/><use href="#c8b" x="31" y="10"/><use href="#c8b" x="40" y="10"/><use href="#c8b" x="49" y="10"/><use href="#c8b" x="58" y="10"/><use href="#c8b" x="67" y="10"/><use href="#c8b" x="76" y="10"/><use href="#c8b" x="85" y="10"/>
+<rect x="4" y="19" width="89" height="1" fill="#555555"/><rect x="4" y="20" width="89" height="1" fill="#FFFFFF"/>
+<rect x="4" y="22" width="89" height="7" fill="#212121"/><rect x="4" y="22" width="89" height="1" fill="#373737"/><rect x="4" y="23" width="1" height="5" fill="#373737"/><rect x="4" y="28" width="89" height="1" fill="#FFFFFF"/><rect x="92" y="23" width="1" height="6" fill="#FFFFFF"/>
+<rect x="4" y="30" width="89" height="1" fill="#555555"/><rect x="4" y="31" width="89" height="1" fill="#FFFFFF"/>
+<text x="4" y="39" font-size="6" fill="#555555" font-family="Consolas,monospace">攻击</text><text x="22" y="39" font-size="6" fill="#212121" font-family="Consolas,monospace">+12</text>
+<text x="48" y="39" font-size="6" fill="#555555" font-family="Consolas,monospace">防御</text><text x="66" y="39" font-size="6" fill="#212121" font-family="Consolas,monospace">+8</text>
+<text x="4" y="48" font-size="6" fill="#555555" font-family="Consolas,monospace">生命</text><text x="22" y="48" font-size="6" fill="#212121" font-family="Consolas,monospace">+20</text>
+<text x="48" y="48" font-size="6" fill="#555555" font-family="Consolas,monospace">灵力</text><text x="66" y="48" font-size="6" fill="#212121" font-family="Consolas,monospace">+15</text>
+<text x="4" y="57" font-size="6" fill="#555555" font-family="Consolas,monospace">修为</text><text x="22" y="57" font-size="6" fill="#212121" font-family="Consolas,monospace">1234</text>
+<text x="48" y="57" font-size="6" fill="#555555" font-family="Consolas,monospace">悟性</text><text x="66" y="57" font-size="6" fill="#212121" font-family="Consolas,monospace">+3</text>
+<text x="4" y="66" font-size="6" fill="#555555" font-family="Consolas,monospace">本源</text><text x="22" y="66" font-size="6" fill="#212121" font-family="Consolas,monospace">+5</text>
+<text x="48" y="66" font-size="6" fill="#555555" font-family="Consolas,monospace">气运</text><text x="66" y="66" font-size="6" fill="#212121" font-family="Consolas,monospace">+2</text>
+</g>
+<line x1="307" y1="38" x2="317" y2="38" stroke="#373737" stroke-width="1"/><text x="321" y="42" fill="#212121" font-family="Consolas,monospace" font-size="11">位阶文字 y=0..7</text>
+<line x1="307" y1="68" x2="317" y2="68" stroke="#373737" stroke-width="1"/><text x="321" y="72" fill="#212121" font-family="Consolas,monospace" font-size="11">刻度尺 y=10..17</text>
+<line x1="307" y1="101" x2="317" y2="101" stroke="#373737" stroke-width="1"/><text x="321" y="105" fill="#212121" font-family="Consolas,monospace" font-size="11">进度条 y=22..28</text>
+<line x1="307" y1="176" x2="317" y2="176" stroke="#373737" stroke-width="1"/><text x="321" y="180" fill="#212121" font-family="Consolas,monospace" font-size="11">属性区 y=32..67</text>
+<text x="321" y="196" fill="#555555" font-family="Consolas,monospace" font-size="11">4 行 × 9px，两列</text>
+<text x="14" y="286" fill="#373737" font-family="Consolas,monospace" font-size="11">97 × 72 · 文字全部由代码绘制，纹理只提供凹槽与刻线</text>
+</svg>
+</div>
+<div class="cap">布局蓝图 — 坐标即代码可用常量</div>
+
+<h2>四 · 刻度尺渲染规则（别搞反）</h2>
+<p>纹理里那 10 个 8×8 凹槽是「没点的灯」。最左格 = <strong>9 阶</strong>（起点），最右格 = <strong>0 阶</strong>（目标）—— 因为玩家 level 是一路<em>减少</em>的，这样排布读起来才是一条自左向右推进的进度条。</p>
+<div class="card pad0">
+<svg width="460" height="120" viewBox="0 0 460 120" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+<defs><g id="cellx">
+<rect width="24" height="24" fill="#8B8B8B"/><rect width="24" height="3" fill="#373737"/><rect y="3" width="3" height="18" fill="#373737"/><rect y="21" width="24" height="3" fill="#FFFFFF"/><rect x="21" y="3" width="3" height="21" fill="#FFFFFF"/>
+</g></defs>
+<text x="20" y="18" fill="#8A7A62" font-family="Consolas,monospace" font-size="11">格子 i</text>
+<g>
+<rect x="20" y="30" width="24" height="24" fill="#6B5540"/><rect x="23" y="33" width="18" height="18" fill="#8A6E4B"/>
+<rect x="50" y="30" width="24" height="24" fill="#6B5540"/><rect x="53" y="33" width="18" height="18" fill="#8A6E4B"/>
+<rect x="80" y="30" width="24" height="24" fill="#6B5540"/><rect x="83" y="33" width="18" height="18" fill="#8A6E4B"/>
+<rect x="110" y="30" width="24" height="24" fill="#000000"/><rect x="113" y="33" width="18" height="18" fill="#7B5EA7"/>
+<rect x="140" y="30" width="24" height="24" fill="#8B8B8B"/><rect x="140" y="30" width="24" height="3" fill="#373737"/><rect y="30" x="140" width="3" height="24" fill="#373737"/><rect x="140" y="51" width="24" height="3" fill="#FFFFFF"/>
+<rect x="170" y="30" width="24" height="24" fill="#8B8B8B"/><rect x="170" y="30" width="24" height="3" fill="#373737"/><rect y="30" x="170" width="3" height="24" fill="#373737"/><rect x="170" y="51" width="24" height="3" fill="#FFFFFF"/>
+<rect x="200" y="30" width="24" height="24" fill="#8B8B8B"/><rect x="200" y="30" width="24" height="3" fill="#373737"/><rect y="30" x="200" width="3" height="24" fill="#373737"/><rect x="200" y="51" width="24" height="3" fill="#FFFFFF"/>
+<rect x="230" y="30" width="24" height="24" fill="#8B8B8B"/><rect x="230" y="30" width="24" height="3" fill="#373737"/><rect y="30" x="230" width="3" height="24" fill="#373737"/><rect x="230" y="51" width="24" height="3" fill="#FFFFFF"/>
+<rect x="260" y="30" width="24" height="24" fill="#8B8B8B"/><rect x="260" y="30" width="24" height="3" fill="#373737"/><rect y="30" x="260" width="3" height="24" fill="#373737"/><rect x="260" y="51" width="24" height="3" fill="#FFFFFF"/>
+<rect x="290" y="30" width="24" height="24" fill="#8B8B8B"/><rect x="290" y="30" width="24" height="3" fill="#373737"/><rect y="30" x="290" width="3" height="24" fill="#373737"/><rect x="290" y="51" width="24" height="3" fill="#FFFFFF"/>
+</g>
+<text x="20" y="72" fill="#8A7A62" font-family="Consolas,monospace" font-size="11">level</text>
+<text x="26" y="90" fill="#C49054" font-family="Consolas,monospace" font-size="12">9</text><text x="56" y="90" fill="#C49054" font-family="Consolas,monospace" font-size="12">8</text><text x="86" y="90" fill="#C49054" font-family="Consolas,monospace" font-size="12">7</text><text x="116" y="90" fill="#C49054" font-family="Consolas,monospace" font-size="12">6</text><text x="146" y="90" fill="#C49054" font-family="Consolas,monospace" font-size="12">5</text><text x="176" y="90" fill="#C49054" font-family="Consolas,monospace" font-size="12">4</text><text x="206" y="90" fill="#C49054" font-family="Consolas,monospace" font-size="12">3</text><text x="236" y="90" fill="#C49054" font-family="Consolas,monospace" font-size="12">2</text><text x="266" y="90" fill="#C49054" font-family="Consolas,monospace" font-size="12">1</text><text x="296" y="90" fill="#C49054" font-family="Consolas,monospace" font-size="12">0</text>
+<text x="20" y="112" fill="#8A7A62" font-family="Consolas,monospace" font-size="11">玩家 7 阶：i=0,1 已走过　i=2 当前　i=3..9 未达到</text>
+</svg>
+</div>
+<div class="cap">示例为玩家 level = 7（凡尘）</div>
+<table>
+<tr><th>格子 i（自左）</th><th>对应 level</th><th>画法</th></tr>
+<tr><td>i = 0 … 8 - 玩家level</td><td>9 … 玩家level+1</td><td>已走过 — 内部 6×6 填暗一档的境界色</td></tr>
+<tr><td>i = 9 - 玩家level</td><td>= 玩家level</td><td>当前 — 填满境界色 + 1px <code>#000000</code> 描框</td></tr>
+<tr><td>i 更大</td><td>玩家level-1 … 0</td><td>未达到 — 什么都不画，保持纹理原样</td></tr>
+</table>
+
+<h2>五 · 接入常量</h2>
+<pre><code><span class="cm">// 面板 blit（位置由实测得出）</span>
+g.blit(tex, guiLeft + <span class="kw">76</span>, guiTop + <span class="kw">7</span>, <span class="kw">0</span>, <span class="kw">0</span>, <span class="kw">97</span>, <span class="kw">72</span>);
+
+REGION      (76, 7) .. (172, 78)      97 x 72
+GLYPH       (4, 1)   6 x 6            境界徽记（纹理已画）
+TITLE_TEXT  (12, 0)                   位阶文字起点
+GAUGE_X     4 + i * 9   i = 0..9      10 个 8x8 凹槽
+GAUGE_Y     10
+BAR         (4, 22, 89, 7)            进度条凹槽（内区 6..92 x 23..27）
+RULE1_Y     19 / 20                   刻线（暗 / 亮）
+RULE2_Y     30 / 31
+STATS_Y     32        STATS_LINE 9    属性区 4 行
+STAT_COL_X  (4, 48)                   两列文字起点</code></pre>
+<pre><code><span class="cm">// 刻度尺：最左 = 9 阶，最右 = 0 阶</span>
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="kw">0</span>; i &lt; <span class="kw">10</span>; i++) {
+    <span class="kw">int</span> lv = <span class="kw">9</span> - i;                              <span class="cm">// 反向映射</span>
+    <span class="kw">int</span> gx = guiLeft + <span class="kw">80</span> + i * <span class="kw">9</span>;
+    <span class="kw">int</span> gy = guiTop + <span class="kw">17</span>;
+    <span class="kw">if</span> (lv &gt; rank.level()) {
+        g.fill(gx + <span class="kw">1</span>, gy + <span class="kw">1</span>, gx + <span class="kw">7</span>, gy + <span class="kw">7</span>, <span class="kw">0xFF6B5540</span>);      <span class="cm">// 已走过</span>
+    } <span class="kw">else if</span> (lv == rank.level()) {
+        g.fill(gx + <span class="kw">1</span>, gy + <span class="kw">1</span>, gx + <span class="kw">7</span>, gy + <span class="kw">7</span>, realmColor);
+        g.renderOutline(gx, gy, <span class="kw">8</span>, <span class="kw">8</span>, <span class="kw">0xFF000000</span>);         <span class="cm">// 当前</span>
+    }
+}
+
+<span class="cm">// 进度条：内区 (81, 30) .. (92+76, 35)</span>
+g.fill(guiLeft + <span class="kw">81</span>, guiTop + <span class="kw">30</span>, guiLeft + <span class="kw">81</span> + (<span class="kw">int</span>)(p * <span class="kw">87</span>), guiTop + <span class="kw">35</span>, <span class="kw">0xFF4AA24A</span>);</code></pre>
+
+<h2>六 · 交付文件</h2>
+<ul>
+<li><code>textures/gui/rank_stats_mortal.png</code> — 97×72 凡尘（标准原版灰）</li>
+<li><code>textures/gui/rank_stats_legend.png</code> — 97×72 传说</li>
+<li><code>textures/gui/rank_stats_mythic.png</code> — 97×72 神话</li>
+<li><code>tools/gui-design/gen_stats_panel.py</code> — 生成脚本（色板与布局常量在顶部）</li>
+<li><code>tools/gui-design/check_stats.py</code> — 自检（结构断言 + 底色一致性 + 镶嵌覆盖验证）</li>
+<li><code>tools/gui-design/preview/</code> — 本设计稿与各倍率预览图</li>
+</ul>
+<div class="card" style="margin-top:14px">
+<p style="margin:0"><strong>三份主题底色强制统一为 <code>#C6C6C6</code></strong>（自检项）。若给传说/神话也染底，贴上背包会形成一块泾渭分明的色斑；主题差异只体现在凹槽线色与徽记色上。</p>
+</div>
+</div>
+</body>
+</html>

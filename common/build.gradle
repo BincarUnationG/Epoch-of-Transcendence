@@ -45,8 +45,13 @@ repositories {
 sourceSets {
     main {
         resources {
+            // src/generated/resources 是数据生成器的输出目录。
+            // 不要再声明 'src/main/resources'：它已经是 Java 插件的默认资源目录，
+            // 重复声明会让每个资源被收集两份，sourcesJar 会以 duplicate 失败。
             srcDir 'src/generated/resources'
-            srcDir 'src/main/resources'
         }
     }
+}
+tasks.withType(ProcessResources).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
