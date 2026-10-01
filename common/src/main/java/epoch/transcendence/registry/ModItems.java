@@ -18,6 +18,7 @@ public final class ModItems {
     public static final Item DEEPSLATE_MANA_ORE_ITEM = new BlockItem(ModBlocks.DEEPSLATE_MANA_ORE, new Item.Properties());
     public static final Item MANA_BLOCK_ITEM = new BlockItem(ModBlocks.MANA_BLOCK, new Item.Properties());
     public static final Item MANA_DUST = new Item(new Item.Properties());
+    public static final Item MANA_BREAD = new Item(new Item.Properties());
 
     private ModItems() {
 
@@ -43,6 +44,11 @@ public final class ModItems {
         Registry.register(BuiltInRegistries.ITEM,
                 new ResourceLocation(EpochMod.MOD_ID,"mana_dust"),
         ModItems.MANA_DUST
+        );
+
+        Registry.register(BuiltInRegistries.ITEM,
+                new ResourceLocation(EpochMod.MOD_ID,"mana_bread"),
+                ModItems.MANA_BREAD
         );
     }
 

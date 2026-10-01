@@ -25,7 +25,7 @@ public final class RankNetwork {
 
     private RankNetwork() {}
 
-    // ===== 单实体同步（Rank 变化时调用）=====
+    // ===== 单实体同步 =====
     public static void syncToNearby(LivingEntity entity) {
         if (!(entity.level() instanceof ServerLevel serverLevel)) return;
 

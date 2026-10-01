@@ -39,6 +39,7 @@ public class EpochFabricMod implements ModInitializer {
                 )
         );
 
+
         ModCreativeTab.register();
 
         System.out.println("[Transcendence] Fabric 注册完成！");

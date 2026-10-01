@@ -2,8 +2,8 @@ package epoch.transcendence.item;
 
 import net.minecraft.world.item.Item;
 
-public class Mana_dust extends Item {
-    public Mana_dust() {
+public class ManaDust extends Item {
+    public ManaDust() {
         super(new Properties().fireResistant());
     }
 }

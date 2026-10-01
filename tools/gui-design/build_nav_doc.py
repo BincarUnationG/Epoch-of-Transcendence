@@ -58,7 +58,7 @@ pre code{background:none;padding:0;color:#C9B896;font-size:12.5px;line-height:1.
 <h1>右上角导航标签 + 晋升进度条 — 设计稿</h1>
 <div class="sub">位阶 / 境界 / 职业 / 加成面板 / 已学法术 / 知识原理 · 嵌入被擦除的合成区（97 × 72）</div>
 
-<div class="done"><strong>已更新：</strong>「知识原理」下方那条细框按你说的做成<strong>晋升进度条</strong>。原来 4 行按钮正好占满 72px，为塞下进度条，按钮从 14px 压到 12px、行距压到 3px，底部让出 6px。</div>
+<div class="done"><strong>已更新：</strong>①按钮改成<strong>扁平标签</strong>（平面底色 + 1px 白边框，去掉斜面凸起）；②点击标签后<strong>替换整个背包面板</strong>，新增子面板框架 <code>rank_tab_panel.png</code>；③「位阶」栏直接显示当前 level；④底部是晋升进度条。</div>
 
 <h2>一 · 镶嵌效果</h2>
 <div class="card pad0"><img src="{{IMG_SHOT}}" alt="镶嵌预览"></div>
@@ -83,7 +83,8 @@ pre code{background:none;padding:0;color:#C9B896;font-size:12.5px;line-height:1.
 <rect x="7" y="67" width="84" height="1" fill="#FFFFFF"/>
 <rect x="90" y="63" width="1" height="5" fill="#FFFFFF"/>
 <rect x="8" y="63" width="28" height="4" fill="#4AA24A"/>
-<text x="49" y="11" font-size="7" fill="#212121" font-family="Consolas,monospace" text-anchor="middle">位阶</text>
+<text x="12" y="11" font-size="7" fill="#212121" font-family="Consolas,monospace">位阶</text>
+<text x="85" y="11" font-size="7" fill="#000000" font-family="Consolas,monospace" text-anchor="end" font-weight="bold">3 阶</text>
 <text x="27" y="26" font-size="7" fill="#212121" font-family="Consolas,monospace" text-anchor="middle">境界</text>
 <text x="71" y="26" font-size="7" fill="#212121" font-family="Consolas,monospace" text-anchor="middle">职业</text>
 <text x="27" y="41" font-size="7" fill="#212121" font-family="Consolas,monospace" text-anchor="middle">加成面板</text>
@@ -110,9 +111,16 @@ pre code{background:none;padding:0;color:#C9B896;font-size:12.5px;line-height:1.
 <tr><td>—</td><td><strong>晋升进度条</strong></td><td>7</td><td>62</td><td>84 × 6（凹槽）</td></tr>
 </table>
 
-<h2>三 · 三态样式</h2>
+<h2>三 · 三态样式（扁平标签）</h2>
 <div class="card pad0"><img src="{{IMG_ATLAS}}" alt="按钮图集"></div>
 <div class="cap">rank_nav_buttons.png · 4 倍放大 · 第 1 排宽按钮 84×12，第 2 排窄按钮 40×12（每排三态：常态/悬停/激活），第 3 排进度条凹槽 84×6</div>
+<table>
+<tr><th>状态</th><th>底色</th><th>边框</th><th>文字</th></tr>
+<tr><td>常态 idle</td><td><code>#C6C6C6</code>（= 面板色）</td><td>1px <code>#FFFFFF</code></td><td><code>#3C3C3C</code></td></tr>
+<tr><td>悬停 hover</td><td><code>#D6D6D6</code></td><td>1px <code>#FFFFFF</code></td><td><code>#1A1A1A</code></td></tr>
+<tr><td><strong>激活 active</strong></td><td><strong><code>#FFFFFF</code></strong></td><td>1px <code>#FFFFFF</code></td><td><code>#000000</code></td></tr>
+</table>
+<p>三态都是<strong>平面色块 + 1px 全边框</strong>，没有高光/阴影斜面 —— 这就是扁平标签感。激活态靠「整块变白」拉开差距，一眼能看出当前停在哪一页。</p>
 
 <h2>四 · 进度条</h2>
 <p>凹槽内区是 <code>(8, 63) .. (89, 66)</code>，即 <strong>82 × 4</strong>。填充由代码按比例画：</p>
@@ -123,7 +131,36 @@ g.blit(TEX, ox + <span class="kw">7</span>, oy + <span class="kw">62</span>, <sp
 <span class="kw">if</span> (w &gt; <span class="kw">0</span>) g.fill(ox + <span class="kw">8</span>, oy + <span class="kw">63</span>, ox + <span class="kw">8</span> + w, oy + <span class="kw">67</span>, <span class="kw">0xFF4AA24A</span>);</code></pre>
 <p>建议填充色 <code>#4AA24A</code>（柔和绿）。想更接近原版经验条那种亮绿，可换 <code>#80FF20</code>，但在灰色面板上会比较扎眼 —— 也可以按境界染色（凡尘铜 / 传说紫 / 神话金）。</p>
 
-<h2>五 · 完整代码用法</h2>
+<h2>五 · 「位阶」栏直接显示 Rank level</h2>
+<p>不用点进去 —— 这一栏左边是栏名、右边就是当前等级，画两段文字即可，<strong>纹理不用改</strong>：</p>
+<table>
+<tr><th>内容</th><th>位置</th><th>对齐</th><th>建议色</th></tr>
+<tr><td>位阶</td><td>x = ox + 12</td><td>左对齐</td><td><code>#212121</code></td></tr>
+<tr><td>3 阶</td><td>x = ox + 85 减去文字宽度</td><td>右对齐</td><td><code>#000000</code></td></tr>
+</table>
+<pre><code><span class="cm">// 左：栏名</span>
+g.drawString(font, <span class="kw">"位阶"</span>, ox + <span class="kw">12</span>, oy + <span class="kw">4</span>, <span class="kw">0x212121</span>, <span class="kw">false</span>);
+<span class="cm">// 右：当前 Rank level（右对齐 = 右边线 ox+85 减去文字宽度）</span>
+String lv = rank.level() + <span class="kw">" 阶"</span>;
+g.drawString(font, lv, ox + <span class="kw">85</span> - font.width(lv), oy + <span class="kw">4</span>, <span class="kw">0x000000</span>, <span class="kw">false</span>);</code></pre>
+<p>想让等级更跳，可把数值换成境界色（凡尘铜 <code>#8A6E4B</code> / 传说紫 <code>#7B5EA7</code> / 神话金 <code>#A8853A</code>）—— 但这些色在 <code>#8B8B8B</code> 底面上对比度偏低，稳妥起见用黑色。</p>
+
+<h2>六 · 点击后替换整个背包面板</h2>
+<p>点任一标签 → 用 <code>rank_tab_panel.png</code>（176 × 166）整块替换原版背包面板；右上角导航区照旧贴按钮，所以随时能切到别的页。</p>
+<div class="card pad0"><img src="{{IMG_TAB}}" alt="子面板预览"></div>
+<div class="cap">点击「位阶」后（3 倍放大）· 左上深色区放标题与大字等级，下方凹槽放内容列表；导航与进度条位置不变</div>
+<table>
+<tr><th>区域</th><th>位置</th><th>尺寸</th><th>底色</th><th>用途</th></tr>
+<tr><td>A 标题区</td><td>(7, 7)</td><td>69 × 72</td><td><code>#212121</code> 深色</td><td>当前标签名 + 大号数值</td></tr>
+<tr><td>B 主内容区</td><td>(7, 83)</td><td>162 × 76</td><td><code>#8B8B8B</code> 凹槽</td><td>内容列表 / 属性</td></tr>
+<tr><td>导航区</td><td>(76, 7)</td><td>97 × 72</td><td>面板色</td><td>贴按钮 + 进度条（不变）</td></tr>
+</table>
+<pre><code><span class="cm">// 切换页：背景整块换掉，坐标不变</span>
+g.blit(RANK_TAB_PANEL, guiLeft, guiTop, <span class="kw">0</span>, <span class="kw">0</span>, <span class="kw">176</span>, <span class="kw">166</span>);
+drawNav(g, guiLeft, guiTop, activeTab);   <span class="cm">// 导航照旧，只是 active 换一项</span>
+drawPage(g, guiLeft, guiTop, activeTab);  <span class="cm">// 再在 A / B 区里画该页内容</span></code></pre>
+
+<h2>七 · 完整代码用法</h2>
 <pre><code><span class="kw">private static final int</span>[] STATE_X_WIDE   = { <span class="kw">0</span>, <span class="kw">84</span>, <span class="kw">168</span> };
 <span class="kw">private static final int</span>[] STATE_X_NARROW = { <span class="kw">0</span>, <span class="kw">40</span>, <span class="kw">80</span>  };
 <span class="cm">// state: 0 = 常态, 1 = 悬停, 2 = 激活</span>
@@ -138,16 +175,21 @@ g.blit(TEX, ox + <span class="kw">51</span>, oy + <span class="kw">32</span>, ST
 g.blit(TEX, ox + <span class="kw">7</span>,  oy + <span class="kw">47</span>, STATE_X_WIDE[state],   <span class="kw">0</span>,  <span class="kw">84</span>, <span class="kw">12</span>);   <span class="cm">// 知识原理</span>
 g.blit(TEX, ox + <span class="kw">7</span>,  oy + <span class="kw">62</span>, <span class="kw">0</span>,                     <span class="kw">24</span>, <span class="kw">84</span>, <span class="kw">6</span>);    <span class="cm">// 进度条凹槽</span>
 
-<span class="cm">// 文字：水平居中，垂直 y = 按钮y + 2（按钮高 12，字高 8）</span>
-g.drawCenteredString(font, <span class="kw">"位阶"</span>, ox + <span class="kw">7</span> + <span class="kw">42</span>, oy + <span class="kw">4</span>, TEXT_COLOR[state]);</code></pre>
+<span class="cm">// 文字：垂直 y = 按钮y + 2（按钮高 12，字高 8）</span>
+<span class="cm">// 「位阶」栏 —— 左栏名 + 右数值，见第五节</span>
+g.drawString(font, <span class="kw">"位阶"</span>, ox + <span class="kw">12</span>, oy + <span class="kw">4</span>, <span class="kw">0x212121</span>, <span class="kw">false</span>);
+String lv = rank.level() + <span class="kw">" 阶"</span>;
+g.drawString(font, lv, ox + <span class="kw">85</span> - font.width(lv), oy + <span class="kw">4</span>, <span class="kw">0x000000</span>, <span class="kw">false</span>);
+<span class="cm">// 其余五栏：水平居中</span>
+g.drawCenteredString(font, <span class="kw">"境界"</span>, ox + <span class="kw">7</span> + <span class="kw">20</span>, oy + <span class="kw">19</span>, TEXT_COLOR[state]);</code></pre>
 
-<h2>六 · 待你确认</h2>
+<h2>八 · 待你确认</h2>
 <div class="ask">
 <ol>
-<li><strong>按钮样式</strong>：参考图是「浅底 + 黑字 + 亮边框」，我按 MC 原版改成了斜面凸起。<strong>如果你就想要那种扁平标签感</strong>，我可以换一版。</li>
-<li><strong>点击后内容显示在哪</strong>：替换整个背包面板（标签页式），还是别处弹窗？这决定要不要给每个标签配各自的子面板背景。</li>
-<li><strong>「加成面板」4 个字塞在 40px 按钮里</strong>，左右各只剩 4px。要不要把两列加宽到 42px（间距 0），或把字号压到 6px？</li>
-<li><strong>进度条显示的是什么进度</strong>？当前阶位的晋升进度（所以进度条本身随境界变色），还是别的？</li>
+<li><strong>六个标签点开后各显示什么？</strong> 现在只有「位阶」页填了示意（大字等级 + 境界/修为/攻击/防御/生命/灵力 六行）。其余五页（境界 / 职业 / 加成面板 / 已学法术 / 知识原理）需要你给内容清单，我才好排布。</li>
+<li><strong>「加成面板」4 个字塞在 40px 按钮里</strong>，左右各只剩 4px（扁平标签去掉内斜面后略微宽松些）。要不要两列都加宽到 42px？</li>
+<li><strong>进度条代表的进度</strong>是什么？当前阶位的晋升进度（那它该随境界变色吗），还是别的？</li>
+<li><strong>子面板的 A 区</strong>（左上深色块）我放了大号等级数字。如果每页都用它显示各自的"主数值"（境界名 / 职业 / 法术数…），说一声我就统一这么排。</li>
 </ol>
 </div>
 </div>
@@ -159,7 +201,8 @@ g.drawCenteredString(font, <span class="kw">"位阶"</span>, ox + <span class="k
 def main():
     html = (TEMPLATE
             .replace("{{IMG_SHOT}}", uri("nav_in_inventory_3x.png"))
-            .replace("{{IMG_ATLAS}}", uri("rank_nav_atlas_4x.png")))
+            .replace("{{IMG_ATLAS}}", uri("rank_nav_atlas_4x.png"))
+            .replace("{{IMG_TAB}}", uri("tab_panel_rank_3x.png")))
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(html, encoding="utf-8")
     print(f"设计稿已生成: {OUT}")

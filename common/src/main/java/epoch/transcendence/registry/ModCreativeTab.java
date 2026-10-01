@@ -39,10 +39,12 @@ public final class ModCreativeTab {
         items.add(new ItemStack(ModItems.DEEPSLATE_MANA_ORE_ITEM));
         items.add(new ItemStack(ModItems.MANA_BLOCK_ITEM));
         items.add(new ItemStack(ModItems.MANA_DUST));
+        items.add(new ItemStack(ModItems.MANA_BREAD));
         items.add(PotionUtils.setPotion(new ItemStack(Items.POTION), ModPotions.MANA_SURGE_POTION));
         items.add(PotionUtils.setPotion(new ItemStack(Items.POTION), ModPotions.LONG_MANA_SURGE_POTION));
         items.add(PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), ModPotions.MANA_SURGE_POTION));
         items.add(PotionUtils.setPotion(new ItemStack(Items.LINGERING_POTION), ModPotions.MANA_SURGE_POTION));
+
         return items;
     }
 

@@ -8,6 +8,8 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class EpochFabricClientMod implements ClientModInitializer {
@@ -38,5 +40,4 @@ public class EpochFabricClientMod implements ClientModInitializer {
 
         System.out.println("[Transcendence] 客户端网络接收器注册完成！");
     }
-
 }

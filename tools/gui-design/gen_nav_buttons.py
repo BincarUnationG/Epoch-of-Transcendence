@@ -50,12 +50,13 @@ LABELS = [
     (3, 0, "知识原理", True),
 ]
 
+# 扁平标签：不用斜面，仅靠「平面底色 + 1px 边框」区分状态
 STATES = {
-    "idle":   {"face": (139, 139, 139, 255), "tl": (255, 255, 255, 255), "br": (85, 85, 85, 255)},
-    "hover":  {"face": (170, 170, 170, 255), "tl": (255, 255, 255, 255), "br": (85, 85, 85, 255)},
-    "active": {"face": (85, 85, 85, 255),    "tl": (255, 255, 255, 255), "br": (255, 255, 255, 255)},
+    "idle":   {"face": (198, 198, 198, 255), "border": (255, 255, 255, 255)},
+    "hover":  {"face": (214, 214, 214, 255), "border": (255, 255, 255, 255)},
+    "active": {"face": (255, 255, 255, 255), "border": (255, 255, 255, 255)},
 }
-TEXT_COLOR = {"idle": 0x212121, "hover": 0x000000, "active": 0xFFFFFF}
+TEXT_COLOR = {"idle": 0x3C3C3C, "hover": 0x1A1A1A, "active": 0x000000}
 
 ATLAS_W = 252
 ATLAS_H = 30
@@ -68,16 +69,13 @@ BAR_FILL_SUGGEST = (74, 162, 74, 255)     # 原版经验条的绿
 
 
 def draw_button(c, x, y, w, state):
-    """MC 原版按钮：顶/左亮线 + 底/右暗线 + 内面。激活态四边全亮。"""
+    """扁平标签：平面底色 + 1px 全边框（无斜面、无投影）。"""
     s = STATES[state]
     c.rect(x, y, x + w - 1, y + BTN_H - 1, s["face"])
-    c.hline(x, x + w - 1, y, s["tl"])
-    c.vline(x, y + 1, y + BTN_H - 2, s["tl"])
-    c.hline(x, x + w - 1, y + BTN_H - 1, s["br"])
-    c.vline(x + w - 1, y + 1, y + BTN_H - 1, s["br"])
-    if state == "active":
-        c.hline(x, x + w - 1, y, (255, 255, 255, 255))
-        c.vline(x, y, y + BTN_H - 1, (255, 255, 255, 255))
+    c.hline(x, x + w - 1, y, s["border"])
+    c.hline(x, x + w - 1, y + BTN_H - 1, s["border"])
+    c.vline(x, y + 1, y + BTN_H - 2, s["border"])
+    c.vline(x + w - 1, y + 1, y + BTN_H - 2, s["border"])
 
 
 def draw_bar(c, x, y, w, h):
@@ -130,25 +128,37 @@ def build_preview(atlas, ref_path, scale=3, bar_fill=0.35):
     return base.resize((w * scale, h * scale), Image.NEAREST)
 
 
-def draw_labels(img, rx, ry):
-    from PIL import ImageDraw, ImageFont
-    d = ImageDraw.Draw(img)
-    font = None
+def _load_font():
+    from PIL import ImageFont
     for name in ("msyh.ttc", "simsun.ttc", "simhei.ttf"):
         p = Path(r"C:\Windows\Fonts") / name
         if p.exists():
             try:
-                font = ImageFont.truetype(str(p), 8)
-                break
+                return ImageFont.truetype(str(p), 8)
             except OSError:
                 continue
+    return None
+
+
+def draw_labels(img, rx, ry, rank_level=3):
+    """预览文字。「位阶」栏特殊：左边栏名、右边直接显示 Rank level。"""
+    from PIL import ImageDraw
+    d = ImageDraw.Draw(img)
+    font = _load_font()
     if font is None:
         return
     for row, col, label, wide in LABELS:
         bx, by, bw, bh = button_rect(row, col, wide)
-        tw = d.textlength(label, font=font)
-        d.text((rx + bx + (bw - tw) / 2, ry + by + (bh - 8) / 2 - 1), label,
-               font=font, fill=(33, 33, 33, 255))
+        ty = ry + by + (bh - 8) / 2 - 1
+        if label == "位阶":
+            # 左：栏名　右：当前 Rank level（直接显示，不必点进去）
+            d.text((rx + bx + 5, ty), label, font=font, fill=(33, 33, 33, 255))
+            val = f"{rank_level} 阶"
+            vw = d.textlength(val, font=font)
+            d.text((rx + bx + bw - 5 - vw, ty), val, font=font, fill=(0, 0, 0, 255))
+        else:
+            tw = d.textlength(label, font=font)
+            d.text((rx + bx + (bw - tw) / 2, ty), label, font=font, fill=(33, 33, 33, 255))
 
 
 def main():
